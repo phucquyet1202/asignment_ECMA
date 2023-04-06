@@ -14,10 +14,12 @@ const add = () => {
     const nameBook = document.querySelector("#ten");
     const anh = document.querySelector("#anh");
     const gia = document.querySelector("#gia");
+    const giam_gia = document.querySelector("#giam_gia");
     const cate = document.querySelector("#cate");
     console.log(cate);
     const btnAdd = document.querySelector("#them");
-    btnAdd.addEventListener("click", () => {
+    btnAdd.addEventListener("click", (e) => {
+      e.preventDefault()
       // alert(cate.value);
       const newBook = {
         name: nameBook.value,
@@ -30,6 +32,9 @@ const add = () => {
         categories: {
           name: cate.value,
         },
+        current_seller: {
+          price: giam_gia.value
+        }
       };
       fetch("http://localhost:3000/books", {
         method: "POST",
@@ -64,24 +69,28 @@ const add = () => {
 
             <div class="p-3">
                 <p class="block text-gray-700 text-sm font-bold mb-2">Đơn giá</p>
-                <input type="text" id="gia" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" autocomplete="off"/>
+                <input type="number" id="gia" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" autocomplete="off"/>
             </div>
 
+            <div class="p-3">
+            <p class="block text-gray-700 text-sm font-bold mb-2">Giảm giá</p>
+            <input type="number" id="giam_gia" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" autocomplete="off"/>
+        </div>
             <div class="p-3">
                 <p class="block text-gray-700 text-sm font-bold mb-2">Tên danh mục</p>
                 <div>
                             <select id="cate" >
                             ${data
-                              .map((cate) => {
-                                if (
-                                  !newListCate.includes(cate.categories?.name)
-                                ) {
-                                  newListCate.push(cate.categories?.name);
-                                  return `
+      .map((cate) => {
+        if (
+          !newListCate.includes(cate.categories?.name)
+        ) {
+          newListCate.push(cate.categories?.name);
+          return `
                                   <option >${cate.categories.name}</option> `;
-                                }
-                              })
-                              .join("")}
+        }
+      })
+      .join("")}
                             </select>
                             </div>
             </div>

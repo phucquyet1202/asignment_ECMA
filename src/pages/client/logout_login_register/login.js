@@ -4,6 +4,7 @@ const getUser = function () {
   document.title = "Đăng nhập";
 
   const [data, setData] = useState([]);
+
   useEffect(function () {
     fetch("http://localhost:3000/users")
       .then(function (response) {
@@ -11,6 +12,7 @@ const getUser = function () {
       })
       .then(function (data) {
         setData(data);
+        console.log(data);
       });
   }, []);
 
@@ -18,13 +20,14 @@ const getUser = function () {
     document
       .getElementById("btn_submit")
       .addEventListener("click", function () {
+        // e.preventDefault()
         const username = document.getElementById("username").value;
         const password = document.getElementById("password").value;
-        data.forEach(function (data) {
-          if (data.email == username && data.password == password) {
+        data.forEach(function (data1) {
+          if (data1.email == username && data1.password == password) {
             sessionStorage.setItem("isLogin", "true");
-            sessionStorage.setItem("idUser", data.id);
-            sessionStorage.setItem("role", data.role);
+            sessionStorage.setItem("idUser", data1.id);
+            sessionStorage.setItem("role", data1.role);
           }
         });
       });
@@ -33,7 +36,7 @@ const getUser = function () {
       window.location.href = "http://localhost:5173/";
     }
   });
-
+  // console.log(data);
   return /*html*/ `
         <div class="bg-[#f8f8f8] h-[700px]">
             <div class="text-center p-10">
